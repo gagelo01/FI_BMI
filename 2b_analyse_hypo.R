@@ -11,7 +11,7 @@ gwasvcf::set_plink()
 exposures_gtex <- fread("Data/Modified/exposures_gtex_hypothalamus.txt")
 
 exposures_gtex_split <- split(exposures_gtex, exposures_gtex$exposure)
-####
+##
 from_harm_to_coloc_results <- function(harm) {
   dat_window <- harm
   type1 <- ifelse(dat_window[1,]$units.exposure != "log odds", "quant", "cc")
