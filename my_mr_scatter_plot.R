@@ -1,7 +1,11 @@
 my_mr_scatter_plot <- function (mr_results, dat, 
-                                equation_facet_grid, legend.position = c(.32,.89) ) { #equation to parse into facet grid example includes "outcome ~  align", " ~  align", and "", if we do not want to have a grid
+                                equation_facet_grid = "", legend.position = c(.32,.89) ) { #equation to parse into facet grid example includes "outcome ~  align", " ~  align", and "", if we do not want to have a grid
   
   d <- dat 
+  if(!("align" %in% colnames(d))) { d$align<-""}
+  if(!("align" %in% colnames(mr_results))) { mr_results$align<-""}
+  if(!("Locus" %in% colnames(d))) { d$Locus<-""}
+  
   
   d <- plyr::mutate(d)
   if (nrow(d) < 2 | sum(d$mr_keep) == 0) {
