@@ -34,7 +34,7 @@ idmrbase_exposure <- "ukb-b-9405" #c("ukb-b-9405", "ukb-b-19953")
 idmrbase_outcome <- NULL
 #multivariable
 k<-"bmi_ukbgiant"
-exposurefor <- c("whr", "UKB-b-9405") #"UKB-b-9405" #The phenotype you want to correct for , but will be added as "exposure" which means there instruments will be selected
+exposurefor <- c("UKB-b-9405") #"UKB-b-9405" #The phenotype you want to correct for , but will be added as "exposure" which means there instruments will be selected
 correctfor <- NULL #The phenotype you want to correct for , but will be added as "correctfor" which means there instruments won't selected
 if(!is.null(exposurefor)){k <- purrr::cross2(k,exposurefor)}
 mvmr_exposure<-lapply(k, unlist)
