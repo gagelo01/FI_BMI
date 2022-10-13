@@ -16,7 +16,18 @@ FandQ <- fread( "Data/Modified/FandQ_univariate.txt")
 egger_intercept <- fread("Data/Modified/egger_intercept.txt")
 tissuespec <- fread("Data/Modified/snptissuespecificity.txt")
 
-
+####
+cleanify<-function(data) {
+    if("exposure"%in%names(data)) {
+    data[, exposure := gsub("UKB-b-9405",  "WC_UKB", exposure)]
+    data <- data[exposure != "whr", ]}
+  if("outcome"%in%names(data)) {
+    data[, outcome := gsub("UKB-b-9405",  "WC_UKB", outcome)]
+    data<-data[outcome != "whr", ]}
+  data[,c("id.exposure","id.outcome"):=NULL]
+  return(data)
+}
+#############
 
 datatable <- rbind(ao[id == "ukb-b-9405", ], 
                    df_index[id %in% c("trait-10-1", "trait-1-1", "trait-2-2","eqtl-2-1","trait-25-1"), ], fill = TRUE)
@@ -44,17 +55,17 @@ for(i in 1:length(tochange)) {
 
 #
 
-map(list(res_steiger, mvmr_results), function(x) x[,c("id.exposure","id.outcome"):=NULL])
+map(list(mvmr_results, egger_intercept,res_steiger, mvmr_results, inst_all_sign_clump), function(x) assign(deparse(substitute(x)), cleanify(x)))
 
 #table caption
 dt_title <- data.table(title = paste0("Supplementary Table ", 1:7),
                        caption = c("Description of the datasets used.",
                                    "Instruments and relevant statistics",
+                                   "Genetic instrument effect on gene level accross different tissues",
                                    "Instrument strength and heterogeneity statistics for bivariable MR",
                                    "Bivariable Mendelian Randomization results",
                                    "Bivariable Mendelian Randomization Egger's intercept",
-                                   "Multivariable Mendelian randomization results.",
-                                   "Genetic instrument effect on gene level accross different tissues"))
+                                   "Multivariable Mendelian randomization results."))
 
 #                       
 list_supdat <- list("Tables captions and titles" = dt_title,
