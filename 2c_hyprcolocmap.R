@@ -314,10 +314,9 @@ ggsave(plot = fourpanel, filename = "Results/fig2_fourpanel.png",
        width = 1000/72,height = 1000/72,units="in",scale=1, device = "png")
 
 threepanel <- cowplot::plot_grid(Y1, Y2,Y3, labels=c("A)", "B)", "C)"), nrow = 1, ncol = 3)
-threepanel
-
+threepanel <- threepanel + theme(plot.background = element_rect(fill = 'white', colour = 'white'))
 ggsave(plot = threepanel, filename = "Results/Supplementary_Figure1.tiff",
-       width = 1100/72,height = 600/72,units="in",scale=1, device = "tiff", dpi = 300)
+       width = 1100/72,height = 600/72,units="in",scale=1, device = "tiff", dpi = 1200)
 
 inst_map[,inst_sel_strat:="biologically_driven"]
 fwrite(inst_map, "Data/Modified/instmapfi.txt")
