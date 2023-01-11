@@ -83,5 +83,8 @@ for(i in 1:length(list_supdat)) {
 writexl::write_xlsx(x = list_supdat,
                     path = "Results/supplementary_tables_clean.xlsx")
 
+writexl::write_xlsx(x = list_supdat,
+                    path = "Analysis/supplementary_tables_clean.xlsx")
+
 message("This script finished without errors")
 
