@@ -17,7 +17,7 @@ harm_univariate[, exposure_outcome :=paste0(exposure, "_", outcome)]
 harm_steiger <- harm_univariate[!(steiger_dir == FALSE & steiger_pval < 0.05),]
 ##########
 fileformat <- "tiff"
-dpi <- 300
+dpi <- 600
 ########
 tochange<- c("res_steiger")
 for(i in 1:length(tochange)) {
@@ -54,7 +54,7 @@ mylabels <- data.frame(heading1 = as.character(doA$align),
                        variable = as.character(1:nrow(doA)))
 
 
-make_forest_plot(panels = list(resultsA),
+k<-make_forest_plot(panels = list(resultsA),
                  col.key = "variable",
                  row.labels = mylabels,
                  exponentiate = FALSE,
@@ -73,8 +73,10 @@ make_forest_plot(panels = list(resultsA),
                  nullval = 0,
                  panel.headings = NULL,
                  xlim = c(0, 1))
+k <- k$plot +
+  theme(plot.background = element_rect(fill = 'white', colour = 'white'))
 
-ggsave(paste0("Results/", "Figure2", ".", fileformat),
+ggsave(paste0("Results/", "Figure2", ".", fileformat), plot = k,
        width=550/72,height=328/72, units="in", scale=1,
        device = fileformat, dpi = dpi)
 ###plotting Figure 2 and supplementary figure 1
@@ -99,7 +101,7 @@ mylabels <- data.frame(heading1 = as.character(doA$method),
                        variable = as.character(1:nrow(doA)))
 
 
-make_forest_plot(panels = list(resultsA),
+k<- make_forest_plot(panels = list(resultsA),
                  col.key = "variable",
                  row.labels = mylabels,
                  exponentiate = FALSE,
@@ -118,8 +120,10 @@ make_forest_plot(panels = list(resultsA),
                  col.right.hjust = 1,
                  nullval = 0,
                  xlim = c(0,0.4))
+k <- k$plot +
+  theme(plot.background = element_rect(fill = 'white', colour = 'white'))
 
-ggsave(paste0("Results/", file_name[i], ".", fileformat ),
+ggsave(paste0("Results/", file_name[i], ".", fileformat ), plot = k,
        width=541/72,height=200/72, units="in", scale=1,
        device = fileformat, dpi = dpi)
 
@@ -134,7 +138,7 @@ data[, Category_other := ifelse(method %in% unimeth, "Univariable", "Multivariab
 data[, Category_other := factor(Category_other, levels = c("Univariable", "Multivariable"))]
 data[,name := gsub("bmi_ukbgiant", "Body mass index", exposure) %>% gsub("UKB-b-9405", "Waist circumference", .)]
 
-forestplot(
+k<-forestplot(
   df = data,
   name = name,
   se = se,
@@ -155,6 +159,8 @@ forestplot(
     scales = "free_y",
     space = "free"
   )
+
+k<-k+theme(plot.background = element_rect(fill = 'white', colour = 'white'))
 
 ggsave(paste0("Results/", "Figure4", ".", fileformat),
        width=350/72,height=250/72, units="in", scale=1,
@@ -183,8 +189,9 @@ k <- forestplot(
   # xlim = data[, round(c(min(exp(lci)),max(exp(uci))), digits = 1)]
 )
 
-k<-k+ facet_wrap(facets =  ~ align)
-k
+k <- k+ facet_wrap(facets =  ~ align) +
+ theme(plot.background = element_rect(fill = 'white', colour = 'white'))
+k 
 ggsave(paste0("Results/", "Figure5", ".", fileformat), plot = k,
        width=864/72,height=408/72, units="in", scale=1,
        device = fileformat, dpi = dpi)
